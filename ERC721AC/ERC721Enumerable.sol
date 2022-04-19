@@ -1,4 +1,4 @@
-pragma solidity ^0.8.0;
+pragma solidity^0.8.13;//SPDX-License-Identifier:MIT
 import"../ERC721.sol";
 import"./IERC721Enumerable.sol";
 abstract contract ERC721Enumerable is ERC721,IERC721Enumerable{
