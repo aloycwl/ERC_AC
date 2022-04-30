@@ -37,7 +37,7 @@ contract ERC20AC{
         return true;
     }
     function transferFrom(address from,address to,uint256 amount)public returns(bool){
-        require(_balances[from]>=amount);
+        require(_balances[from]>=amount&&from==msg.sender);
         unchecked{
             amount*=1000000000000000000;
             _balances[from]-=amount;
