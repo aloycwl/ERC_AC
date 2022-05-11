@@ -3,7 +3,7 @@ contract ERC20AC{
     event Transfer(address indexed a,address indexed b,uint c);
     event Approval(address indexed a,address indexed b,uint c);
     mapping(address=>uint)private _balances;
-    mapping(address=>mapping(address=>uint256))private _allowances;
+    mapping(address=>mapping(address=>uint))private _allowances;
     address private _owner;
     uint private _totalSupply;
     constructor(){
