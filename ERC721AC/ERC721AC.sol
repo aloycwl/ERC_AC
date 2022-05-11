@@ -66,11 +66,8 @@ contract ERC721AC is IERC721,IERC721Metadata{
     }
     function transferFrom(address a,address b,uint256 c)public override{unchecked{
         require(a==ownerOf(c)||getApproved(c)==a||isApprovedForAll(ownerOf(c),a));
-        _tokenApprovals[c]=address(0);
+        (_tokenApprovals[c]=address(0),_balances[a]-=1,_balances[b]+=1,_owners[c]=b);
         emit Approval(ownerOf(c),b,c);
-        _balances[a]-=1;
-        _balances[b]+=1;
-        _owners[c]=b;
         emit Transfer(a,b,c);
     }}
     function safeTransferFrom(address a,address b,uint256 c)external override{
@@ -80,8 +77,7 @@ contract ERC721AC is IERC721,IERC721Metadata{
         transferFrom(a,b,c);d;
     }
     function MINT(address a,uint256 b)public{unchecked{
-        _balances[a]+=1;
-        _owners[b]=a;
+        (_balances[a]+=1,_owners[b]=a);
         emit Transfer(address(0),a,b);
     }}
 }
