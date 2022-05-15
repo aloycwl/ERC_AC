@@ -1,8 +1,8 @@
 pragma solidity>0.8.0;//SPDX-License-Identifier:None
 interface IERC721{
-    event Transfer(address indexed a,address indexed b,uint indexed c);
-    event Approval(address indexed a,address indexed b,uint indexed c);
-    event ApprovalForAll(address indexed a,address indexed b,bool c);
+    event Transfer(address indexed from,address indexed to,uint256 indexed tokenId);
+    event Approval(address indexed owner,address indexed approved,uint256 indexed tokenId);
+    event ApprovalForAll(address indexed owner,address indexed operator,bool approved);
     function balanceOf(address a)external view returns(uint b);
     function ownerOf(uint a)external view returns(address b);
     function safeTransferFrom(address a,address b,uint c)external;
