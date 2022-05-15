@@ -1,7 +1,7 @@
 pragma solidity>0.8.0;//SPDX-License-Identifier:None
 contract ERC20AC{
-    event Transfer(address indexed a,address indexed b,uint c);
-    event Approval(address indexed a,address indexed b,uint c);
+    event Transfer(address indexed from,address indexed to,uint256 value);
+    event Approval(address indexed owner,address indexed spender,uint256 value);
     mapping(address=>uint)private _balances;
     mapping(address=>mapping(address=>uint))private _allowances;
     address private _owner;
