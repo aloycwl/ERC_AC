@@ -10,10 +10,10 @@ contract ERC20AC{
         _owner=msg.sender;
     }
     function name()external pure returns(string memory){
-        return "Ethereum Request for Command 20 Aloysius Chan";
+        return"Ethereum Request for Command 20 Aloysius Chan";
     }
     function symbol()external pure returns(string memory){
-        return "ERC20AC";
+        return"ERC20AC";
     }
     function decimals()external pure returns(uint){
         return 18;
