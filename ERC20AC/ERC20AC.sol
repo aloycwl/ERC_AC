@@ -1,4 +1,4 @@
-pragma solidity^0.8.13;//SPDX-License-Identifier:None
+pragma solidity>0.8.0;//SPDX-License-Identifier:None
 contract ERC20AC{
     event Transfer(address indexed a,address indexed b,uint c);
     event Approval(address indexed a,address indexed b,uint c);
