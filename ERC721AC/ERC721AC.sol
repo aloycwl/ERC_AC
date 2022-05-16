@@ -45,8 +45,7 @@ contract ERC721AC is IERC721,IERC721Metadata{
     function symbol()external pure override returns(string memory){
         return"ERC721AC";
     }
-    function tokenURI(uint a)external pure override returns(string memory){
-        a;
+    function tokenURI(uint)external pure override returns(string memory){
         return"";
     }
     function approve(address a,uint b)external override{
@@ -73,8 +72,8 @@ contract ERC721AC is IERC721,IERC721Metadata{
     function safeTransferFrom(address a,address b,uint c)external override{
         transferFrom(a,b,c);
     }
-    function safeTransferFrom(address a,address b,uint c,bytes memory d)external override{
-        transferFrom(a,b,c);d;
+    function safeTransferFrom(address a,address b,uint c,bytes memory)external override{
+        transferFrom(a,b,c);
     }
     function MINT(address a,uint b)public{unchecked{
         (_balances[a]+=1,_owners[b]=a);
