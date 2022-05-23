@@ -34,7 +34,7 @@ contract ERC721AC is IERC721,IERC721Metadata{
         return _balances[a];
     }
     function ownerOf(uint a)public view override virtual returns(address){
-        return _owners[a];
+        return _owners[a]; 
     }
     function owner()external view returns(address){
         return _owner;
