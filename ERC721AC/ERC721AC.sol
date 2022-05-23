@@ -19,14 +19,12 @@ interface IERC721Metadata{
     function tokenURI(uint)external view returns(string memory);
 }
 contract ERC721AC is IERC721,IERC721Metadata{
-    address private _owner;
+    address internal _owner;
     mapping(uint=>address)private _owners;
     mapping(address=>uint)private _balances;
     mapping(uint=>address)private _tokenApprovals;
     mapping(address=>mapping(address=>bool))private _operatorApprovals;
-    constructor(){
-        _owner=msg.sender;
-    }
+    constructor(){}
     function supportsInterface(bytes4 a)external pure returns(bool){
         return a==type(IERC721).interfaceId||a==type(IERC721Metadata).interfaceId;
     }
