@@ -1,5 +1,23 @@
 pragma solidity>0.8.0;//SPDX-License-Identifier:None
-import"https://github.com/aloycwl/ERC_AC/blob/main/ERC721AC/more/standard_interface.sol";
+interface IERC721{
+    event Transfer(address indexed from,address indexed to,uint indexed tokenId);
+    event Approval(address indexed owner,address indexed approved,uint indexed tokenId);
+    event ApprovalForAll(address indexed owner,address indexed operator,bool approved);
+    function balanceOf(address)external view returns(uint);
+    function ownerOf(uint)external view returns(address);
+    function safeTransferFrom(address,address,uint)external;
+    function transferFrom(address,address,uint)external;
+    function approve(address,uint)external;
+    function getApproved(uint)external view returns(address);
+    function setApprovalForAll(address,bool)external;
+    function isApprovedForAll(address,address)external view returns(bool);
+    function safeTransferFrom(address,address,uint,bytes calldata)external;
+}
+interface IERC721Metadata{
+    function name()external view returns(string memory);
+    function symbol()external view returns(string memory);
+    function tokenURI(uint)external view returns(string memory);
+}
 contract ERC721AC is IERC721,IERC721Metadata{
     address private _owner;
     mapping(uint=>address)private _owners;
@@ -12,10 +30,10 @@ contract ERC721AC is IERC721,IERC721Metadata{
     function supportsInterface(bytes4 a)external pure returns(bool){
         return a==type(IERC721).interfaceId||a==type(IERC721Metadata).interfaceId;
     }
-    function balanceOf(address a)external view override returns(uint){
+    function balanceOf(address a)external view override virtual returns(uint){
         return _balances[a];
     }
-    function ownerOf(uint a)public view override returns(address){
+    function ownerOf(uint a)public view override virtual returns(address){
         return _owners[a];
     }
     function owner()external view returns(address){
@@ -45,7 +63,7 @@ contract ERC721AC is IERC721,IERC721Metadata{
     function isApprovedForAll(address a,address b)public view override returns(bool){
         return _operatorApprovals[a][b];
     }
-    function transferFrom(address a,address b,uint c)public override{unchecked{
+    function transferFrom(address a,address b,uint c)public virtual override{unchecked{
         require(a==ownerOf(c)||getApproved(c)==a||isApprovedForAll(ownerOf(c),a));
         (_tokenApprovals[c]=address(0),_balances[a]-=1,_balances[b]+=1,_owners[c]=b);
         emit Approval(ownerOf(c),b,c);
@@ -57,8 +75,4 @@ contract ERC721AC is IERC721,IERC721Metadata{
     function safeTransferFrom(address a,address b,uint c,bytes memory)external override{
         transferFrom(a,b,c);
     }
-    function MINT(address a,uint b)public{unchecked{
-        (_balances[a]+=1,_owners[b]=a);
-        emit Transfer(address(0),a,b);
-    }}
 }
