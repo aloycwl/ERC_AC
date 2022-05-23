@@ -9,10 +9,10 @@ contract ERC20AC{
     constructor(){
         _owner=msg.sender;
     }
-    function name()external pure returns(string memory){
+    function name()external view virtual returns(string memory){
         return"Ethereum Request for Command 20 Aloysius Chan";
     }
-    function symbol()external pure returns(string memory){
+    function symbol()external view virtual returns(string memory){
         return"ERC20AC";
     }
     function decimals()external pure returns(uint){
@@ -42,16 +42,5 @@ contract ERC20AC{
         (_balances[a]-=c,_balances[b]+=c);
         emit Transfer(a,b,c);
         return true;
-    }}
-    function MINT(address a,uint b)external{unchecked{
-        b*=1e18;
-        (_totalSupply+=b,_balances[a]+=b);
-        emit Transfer(address(0),a,b);
-    }}
-    function BURN(address a,uint b)external{unchecked{
-        b*=1e18;
-        require(_balances[a]>=b);
-        (_balances[a]-=b,_totalSupply-=b);
-        emit Transfer(a,address(0),b);
     }}
 }
