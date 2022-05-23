@@ -38,12 +38,12 @@ contract ERC721AC is IERC721,IERC721Metadata{
         return _owner;
     }
     function name()external pure override returns(string memory){
-        return"Ethereum Request for Command 721 Aloysius Chan";
+        return"";
     }
     function symbol()external pure override returns(string memory){
-        return"ERC721AC";
+        return"";
     }
-    function tokenURI(uint)external pure override returns(string memory){
+    function tokenURI(uint)external view override virtual returns(string memory){
         return"";
     }
     function approve(address a,uint b)external override{
