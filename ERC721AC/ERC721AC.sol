@@ -22,7 +22,7 @@ contract ERC721AC is IERC721,IERC721Metadata{
     address internal _owner;
     mapping(uint=>address)private _owners;
     mapping(address=>uint)private _balances;
-    mapping(uint=>address)private _tokenApprovals;
+    mapping(uint=>address)internal _tokenApprovals;
     mapping(address=>mapping(address=>bool))private _operatorApprovals;
     constructor(){}
     function supportsInterface(bytes4 a)external pure returns(bool){
@@ -37,10 +37,10 @@ contract ERC721AC is IERC721,IERC721Metadata{
     function owner()external view returns(address){
         return _owner;
     }
-    function name()external pure override returns(string memory){
+    function name()external view override virtual returns(string memory){
         return"";
     }
-    function symbol()external pure override returns(string memory){
+    function symbol()external view override virtual returns(string memory){
         return"";
     }
     function tokenURI(uint)external view override virtual returns(string memory){
