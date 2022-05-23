@@ -20,10 +20,10 @@ interface IERC721Metadata{
 }
 contract ERC721AC is IERC721,IERC721Metadata{
     address internal _owner;
-    mapping(uint=>address)private _owners;
-    mapping(address=>uint)private _balances;
+    mapping(uint=>address)internal _owners;
+    mapping(address=>uint)internal _balances;
     mapping(uint=>address)internal _tokenApprovals;
-    mapping(address=>mapping(address=>bool))private _operatorApprovals;
+    mapping(address=>mapping(address=>bool))internal _operatorApprovals;
     constructor(){}
     function supportsInterface(bytes4 a)external pure returns(bool){
         return a==type(IERC721).interfaceId||a==type(IERC721Metadata).interfaceId;
