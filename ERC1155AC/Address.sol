@@ -11,7 +11,8 @@ library Address{
     function functionCall(address target,bytes memory data)internal returns(bytes memory){
         return functionCall(target,data,"Address: low-level call failed");
     }
-    function functionCall(address target,bytes memory data,string memory errorMessage)internal returns(bytes memory){return functionCallWithValue(target,data,0,errorMessage);
+    function functionCall(address target,bytes memory data,string memory errorMessage)internal returns(bytes memory){
+        return functionCallWithValue(target,data,0,errorMessage);
     }
     function functionCallWithValue(address target,bytes memory data,uint256 value)internal returns(bytes memory){
         return functionCallWithValue(target,data,value,"Address: low-level call with value failed");
@@ -39,9 +40,8 @@ library Address{
         return verifyCallResult(success,returndata,errorMessage);
     }
     function verifyCallResult(bool success,bytes memory returndata,string memory errorMessage)internal pure returns(bytes memory){
-        if(success){
-            return returndata;
-        }else{
+        if(success)return returndata;
+        else{
             if(returndata.length>0){
                 assembly{let returndata_size:=mload(returndata)revert(add(32,returndata),returndata_size)}
             }else revert(errorMessage);
