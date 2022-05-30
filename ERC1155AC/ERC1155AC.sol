@@ -15,8 +15,8 @@ interface IERC1155MetadataURI is IERC1155{
     function uri(uint256 id)external view returns(string memory);
 }
 contract ERC1155 is IERC1155,IERC1155MetadataURI{
-    mapping(uint256=>mapping(address=>uint256))private _balances;
-    mapping(address=>mapping(address=>bool))private _operatorApprovals;
+    mapping(uint256=>mapping(address=>uint256))private _b;
+    mapping(address=>mapping(address=>bool))private _o;
     string private _uri;
     constructor(string memory uri_){
         _uri=uri_;
@@ -28,72 +28,55 @@ contract ERC1155 is IERC1155,IERC1155MetadataURI{
         return _uri;
     }
     function balanceOf(address a,uint256 b)public view virtual override returns(uint256){
-        return _balances[b][a];
+        return _b[b][a];
     }
     function balanceOfBatch(address[]memory a,uint256[]memory b)external view virtual override returns(uint256[]memory c){
         c=new uint256[](a.length);
         for(uint256 i=0;i<a.length;++i)c[i]=balanceOf(a[i],b[i]);
     }
-    function setApprovalForAll(address a,bool b)external virtual override{
-        _setApprovalForAll(msg.sender,a,b);
+    function setApprovalForAll(address a,bool b)external override{
+        require(msg.sender!=a);
+        _o[msg.sender][a]=b;
+        emit ApprovalForAll(msg.sender,a,b);
     }
     function isApprovedForAll(address a,address b)public view virtual override returns(bool){
-        return _operatorApprovals[a][b];
+        return _o[a][b];
     }
-    function safeTransferFrom(address a,address b,uint256 c,uint256 d,bytes memory data)public virtual override{
+    function safeTransferFrom(address a,address b,uint256 c,uint256 d,bytes memory)external override{unchecked{
         require(a==msg.sender||isApprovedForAll(a,msg.sender));
-        _safeTransferFrom(a,b,c,d,data);
-    }
-    function safeBatchTransferFrom(address from,address to,uint256[]memory ids,uint256[]memory amounts,bytes memory data)public virtual override{
-        require(from==msg.sender||isApprovedForAll(from,msg.sender));
-        _safeBatchTransferFrom(from,to,ids,amounts,data);
-    }
-    function _safeTransferFrom(address from,address to,uint256 id,uint256 amount,bytes memory)internal virtual{unchecked{
-        require(to!=address(0));
-        require(_balances[id][from]>=amount);
-       (_balances[id][from]=_balances[id][from]-amount,_balances[id][to]+=amount);
-        emit TransferSingle(msg.sender,from,to,id,amount);
+        require(_b[c][a]>=d);
+       (_b[c][a]-=d,_b[c][b]+=d);
+        emit TransferSingle(msg.sender,a,b,c,d);
     }}
-    function _safeBatchTransferFrom(address from,address to,uint256[]memory ids,uint256[]memory amounts,bytes memory)internal virtual{unchecked{
-        require(ids.length==amounts.length);
-        require(to!=address(0));
-        for(uint256 i=0;i<ids.length;++i){
-            require(_balances[ids[i]][from]>=amounts[i]);
-           (_balances[ids[i]][from]=_balances[ids[i]][from]-amounts[i],_balances[ids[i]][to]+=amounts[i]);
+    function safeBatchTransferFrom(address a,address b,uint256[]memory c,uint256[]memory d,bytes memory)external override{unchecked{
+        require(a==msg.sender||isApprovedForAll(a,msg.sender));
+        require(c.length==d.length);
+        for(uint256 i=0;i<c.length;++i){
+            require(_b[c[i]][a]>=d[i]);
+           (_b[c[i]][a]-=d[i],_b[c[i]][b]+=d[i]);
         }
-        emit TransferBatch(msg.sender,from,to,ids,amounts);
+        emit TransferBatch(msg.sender,a,b,c,d);
     }}
-    function _mint(address to,uint256 id,uint256 amount,bytes memory)internal virtual{
-        _balances[id][to]+=amount;
-        emit TransferSingle(msg.sender,address(0),to,id,amount);
-    }
-    function _mintBatch(address to,uint256[]memory ids,uint256[]memory amounts,bytes memory)internal virtual{
-        require(ids.length==amounts.length);
-        for(uint256 i=0;i<ids.length;i++)_balances[ids[i]][to]+=amounts[i];
-        emit TransferBatch(msg.sender,address(0),to,ids,amounts);
-    }
-    function _burn(address from,uint256 id,uint256 amount)internal virtual{unchecked{
-        uint256 fromBalance=_balances[id][from];
-        require(fromBalance>=amount);
-        _balances[id][from]=fromBalance -amount;
-        emit TransferSingle(msg.sender,from,address(0),id,amount);
+    function _mint(address a,uint256 b,uint256 c,bytes memory)internal virtual{unchecked{
+        _b[b][a]+=c;
+        emit TransferSingle(msg.sender,address(0),a,b,c);
     }}
-    function _burnBatch(address from,uint256[]memory ids,uint256[]memory amounts)internal virtual{unchecked{
-        require(from!=address(0));
-        require(ids.length==amounts.length);
-        for(uint256 i=0;i<ids.length;i++){
-            require(_balances[ids[i]][from]>=amounts[i]);
-            _balances[ids[i]][from]=_balances[ids[i]][from]-amounts[i];
+    function _mintBatch(address a,uint256[]memory b,uint256[]memory c,bytes memory)internal virtual{unchecked{
+        require(b.length==c.length);
+        for(uint256 i=0;i<b.length;i++)_b[b[i]][a]+=c[i];
+        emit TransferBatch(msg.sender,address(0),a,b,c);
+    }}
+    function _burn(address a,uint256 b,uint256 c)internal virtual{unchecked{
+        require(_b[b][a]>=c);
+        _b[b][a]=_b[b][a]-c;
+        emit TransferSingle(msg.sender,a,address(0),b,c);
+    }}
+    function _burnBatch(address a,uint256[]memory b,uint256[]memory c)internal virtual{unchecked{
+        require(b.length==c.length);
+        for(uint256 i=0;i<b.length;i++){
+            require(_b[b[i]][a]>=c[i]);
+            _b[b[i]][a]-=c[i];
         }
-        emit TransferBatch(msg.sender,from,address(0),ids,amounts);
+        emit TransferBatch(msg.sender,a,address(0),b,c);
     }}
-    function _setApprovalForAll(address owner,address operator,bool approved)internal virtual{
-        require(owner!=operator);
-        _operatorApprovals[owner][operator]=approved;
-        emit ApprovalForAll(owner,operator,approved);
-    }
-    function _asSingletonArray(uint256 element)private pure returns(uint256[]memory array){
-        array=new uint256[](1);
-        array[0]=element;
-    }
 }
