@@ -8,8 +8,8 @@ contract ERC20AC{
     uint internal _totalSupply;
     string private _name;
     string private _sym;
-    constructor(string memory a,string memory b){
-        (_owner,_name,_sym)=(msg.sender,a,b);
+    constructor(string memory name_,string memory sym_){
+        (_owner,_name,_sym)=(msg.sender,name_,sym_);
     }
     function name()external view returns(string memory){
         return _name;
