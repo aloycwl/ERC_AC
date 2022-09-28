@@ -2,10 +2,10 @@ pragma solidity>0.8.0;//SPDX-License-Identifier:None
 contract ERC20AC{
     event Transfer(address indexed from,address indexed to,uint value);
     event Approval(address indexed owner,address indexed spender,uint value);
-    mapping(address=>uint)internal _balances;
     mapping(address=>mapping(address=>uint))internal _allowances;
-    address internal _owner;
+    mapping(address=>uint)internal _balances;
     uint internal _totalSupply;
+    address internal _owner;
     string private _name;
     string private _sym;
     constructor(string memory name_,string memory sym_){
@@ -27,8 +27,7 @@ contract ERC20AC{
         return _balances[a];
     }
     function transfer(address a,uint b)external returns(bool){
-        transferFrom(msg.sender,a,b);
-        return true;
+        return transferFrom(msg.sender,a,b);
     }
     function allowance(address a,address b)external view returns(uint){
         return _allowances[a][b];

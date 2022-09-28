@@ -20,8 +20,8 @@ interface IERC721Metadata{
 }
 contract ERC721AC is IERC721,IERC721Metadata{
     address internal _owner;
-    string _name;
-    string _sym;
+    string private _name;
+    string private _sym;
     mapping(uint=>address)internal _owners;
     mapping(address=>uint)internal _balances;
     mapping(uint=>address)internal _tokenApprovals;
