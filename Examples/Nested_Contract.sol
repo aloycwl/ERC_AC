@@ -1,7 +1,7 @@
 pragma solidity>0.8.0;//SPDX-License-Identifier:None
 
 contract Child{
-    uint amount;
+    uint public amount;
     constructor(uint _amount){
         amount=_amount;
     }
