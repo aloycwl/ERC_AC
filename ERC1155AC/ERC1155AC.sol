@@ -45,7 +45,7 @@ contract ERC1155 is IERC1155,IERC1155MetadataURI{
     function safeTransferFrom(address a,address b,uint256 c,uint256 d,bytes memory)external override{unchecked{
         require(a==msg.sender||isApprovedForAll(a,msg.sender));
         require(_b[c][a]>=d);
-       (_b[c][a]-=d,_b[c][b]+=d);
+        (_b[c][a]-=d,_b[c][b]+=d);
         emit TransferSingle(msg.sender,a,b,c,d);
     }}
     function safeBatchTransferFrom(address a,address b,uint256[]memory c,uint256[]memory d,bytes memory)external override{unchecked{
@@ -53,7 +53,7 @@ contract ERC1155 is IERC1155,IERC1155MetadataURI{
         require(c.length==d.length);
         for(uint256 i=0;i<c.length;++i){
             require(_b[c[i]][a]>=d[i]);
-           (_b[c[i]][a]-=d[i],_b[c[i]][b]+=d[i]);
+            (_b[c[i]][a]-=d[i],_b[c[i]][b]+=d[i]);
         }
         emit TransferBatch(msg.sender,a,b,c,d);
     }}

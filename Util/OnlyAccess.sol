@@ -1,5 +1,5 @@
 pragma solidity>0.8.0;//SPDX-License-Identifier:None
-contract OnlyAccess {
+contract OnlyAccess{
     mapping(address=>uint)public _access;
     modifier onlyAccess(){
         require(_access[msg.sender]>0);
