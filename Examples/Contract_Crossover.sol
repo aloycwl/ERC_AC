@@ -1,4 +1,4 @@
-pragma solidity^0.8.13;//SPDX-License-Identifier:None
+pragma solidity>0.8.0;//SPDX-License-Identifier:None
 
 interface IOwlContract{
     function MINT(address _t,uint256 _a)external;
