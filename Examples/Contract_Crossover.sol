@@ -12,4 +12,7 @@ contract testCrossContract{
     function setAddress(address _a)external{
         ioc=IOwlContract(_a);
     }
+    function direct(address _1,address _2,uint _a)external{
+        IOwlContract(_1).MINT(_2,_a);
+    }
 }
