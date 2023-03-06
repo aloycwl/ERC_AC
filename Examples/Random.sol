@@ -1,4 +1,5 @@
 pragma solidity>0.8.0;//SPDX-License-Identifier:None
+
 contract random{
     function ranArr()external view returns(uint[10] memory array){unchecked{
         uint something=uint(keccak256(abi.encodePacked(block.timestamp)));
