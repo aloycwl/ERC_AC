@@ -17,7 +17,6 @@ contract Parent{
         childs.push(address(child));
     }
     function displayChilds()external view returns(address[] memory _c){
-        _c=new address[](childs.length);
         _c=childs;
     }
     function fetchAmt(address _a)external view returns(uint){
