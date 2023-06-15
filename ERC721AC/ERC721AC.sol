@@ -29,7 +29,7 @@ contract ERC721AC is IERC721, IERC721Metadata {
     mapping(uint=>address)public ownerOf;
     mapping(address=>uint)public balanceOf;
     mapping(uint=>address)public getApproved;
-    mapping(address=>mapping(address=>bool))internal _operatorApprovals;
+    mapping(address=>mapping(address=>bool))public isApprovedForAll;
 
     constructor() {
 
@@ -44,18 +44,16 @@ contract ERC721AC is IERC721, IERC721Metadata {
         return"";
     }
     function approve(address a, uint b)external {
-        require(msg.sender==ownerOf[b]||isApprovedForAll(ownerOf[b], msg.sender));
+        require(msg.sender==ownerOf[b]||isApprovedForAll[ownerOf[b]][msg.sender]);
         getApproved[b]=a;
         emit Approval(ownerOf[b], a, b);
     }
     
     function setApprovalForAll(address a, bool b)external {
-        _operatorApprovals[msg.sender][a]=b;
+        isApprovedForAll[msg.sender][a]=b;
         emit ApprovalForAll(msg.sender, a, b);
     }
-    function isApprovedForAll(address a, address b)public view returns(bool) {
-        return _operatorApprovals[a][b];
-    }
+    
     function safeTransferFrom(address a, address b, uint c)external {
         transferFrom(a, b, c);
     }
@@ -63,7 +61,7 @@ contract ERC721AC is IERC721, IERC721Metadata {
         transferFrom(a, b, c);
     }
     function transferFrom(address a, address b, uint c)public {unchecked {
-        require(a==ownerOf[c]||getApproved[c]==a||isApprovedForAll(ownerOf[c], a));
+        require(a==ownerOf[c]||getApproved[c]==a||isApprovedForAll[ownerOf[c]][a]);
         (getApproved[c]=address(0), --balanceOf[a], ++balanceOf[b], ownerOf[c]=b);
         emit Approval(ownerOf[c], b, c);
         emit Transfer(a, b, c);
