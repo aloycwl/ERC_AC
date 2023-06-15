@@ -50,10 +50,11 @@ contract ERC721AC is IERC721, IERC721Metadata {
 
     }
 
-    function approve(address a, uint b)external {
-        require(msg.sender==ownerOf[b]||isApprovedForAll[ownerOf[b]][msg.sender]);
-        getApproved[b]=a;
-        emit Approval(ownerOf[b], a, b);
+    function approve(address a, uint b) external {
+
+        assert(msg.sender == ownerOf[b] || isApprovedForAll[ownerOf[b]][msg.sender]);
+        emit Approval(ownerOf[b], getApproved[b] = a, b);
+
     }
     
     function setApprovalForAll(address a, bool b)external {
