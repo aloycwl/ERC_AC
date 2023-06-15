@@ -75,15 +75,20 @@ contract ERC721AC is IERC721, IERC721Metadata {
 
     }
 
-    function transferFrom(address from, address to, uint c) public { 
-        assert( from == ownerOf[c] || 
-                getApproved[c] == from || 
-                isApprovedForAll[ownerOf[c]][from]);
+    function transferFrom(address from, address to, uint id) public { 
+
+        address _owner = ownerOf[id];
+
+        assert( from == _owner || 
+                getApproved[id] == from || 
+                isApprovedForAll[_owner][from]);
+        
         unchecked {
         
-            (getApproved[c]=address(0), --balanceOf[from], ++balanceOf[to], ownerOf[c]=to);
-            emit Approval(ownerOf[c], to, c);
-            emit Transfer(from, to, c);
+            (--balanceOf[from], ++balanceOf[to], getApproved[id] = address(0));
+        
+            emit Approval(ownerOf[id] = to, to, id);
+            emit Transfer(from, to, id);
 
         }
     }
