@@ -21,26 +21,27 @@ interface IERC721Metadata {
     function symbol()                                                   external view returns(string memory);
     function tokenURI(uint)                                             external view returns(string memory);
 }
+
 contract ERC721AC is IERC721, IERC721Metadata {
 
-    address public owner;
-    string public name="Name";
-    string public symbol="SYM";
-    mapping(uint=>address)public ownerOf;
-    mapping(address=>uint)public balanceOf;
-    mapping(uint=>address)public getApproved;
-    mapping(address=>mapping(address=>bool))public isApprovedForAll;
+    address                                                             public owner;
+    string constant                                                     public name="Name";
+    string constant                                                     public symbol="SYM";
+    mapping(uint=>address)                                              public ownerOf;
+    mapping(address=>uint)                                              public balanceOf;
+    mapping(uint=>address)                                              public getApproved;
+    mapping(address=>mapping(address=>bool))                            public isApprovedForAll;
 
     constructor() {
 
         owner = msg.sender;
 
     }
-    function supportsInterface(bytes4 a)external pure returns(bool) {
+    function supportsInterface(bytes4 a) external pure returns(bool) {
         return a==type(IERC721).interfaceId||a==type(IERC721Metadata).interfaceId;
     }
     
-    function tokenURI(uint)external pure returns(string memory) {
+    function tokenURI(uint) external pure returns(string memory) {
         return"";
     }
     function approve(address a, uint b)external {
