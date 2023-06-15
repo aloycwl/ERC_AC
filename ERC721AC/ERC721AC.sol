@@ -45,8 +45,11 @@ contract ERC721AC is IERC721, IERC721Metadata {
     }
     
     function tokenURI(uint) external pure returns(string memory) {
-        return"";
+
+        return "";
+
     }
+
     function approve(address a, uint b)external {
         require(msg.sender==ownerOf[b]||isApprovedForAll[ownerOf[b]][msg.sender]);
         getApproved[b]=a;
