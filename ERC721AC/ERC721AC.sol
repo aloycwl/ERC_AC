@@ -69,9 +69,12 @@ contract ERC721AC is IERC721, IERC721Metadata {
 
     }
 
-    function safeTransferFrom(address a, address b, uint c, bytes memory)external {
-        transferFrom(a, b, c);
+    function safeTransferFrom(address from, address to, uint id, bytes memory) external {
+
+        transferFrom(from, to, id);
+
     }
+    
     function transferFrom(address a, address b, uint c)public {unchecked {
         require(a==ownerOf[c]||getApproved[c]==a||isApprovedForAll[ownerOf[c]][a]);
         (getApproved[c]=address(0), --balanceOf[a], ++balanceOf[b], ownerOf[c]=b);
