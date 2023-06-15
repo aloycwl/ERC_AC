@@ -59,7 +59,7 @@ contract ERC721AC is IERC721, IERC721Metadata {
     
     function setApprovalForAll(address to, bool bol) external {
 
-        emit ApprovalForAll(msg.sender, to, isApprovedForAll[msg.sender][to]=bol);
+        emit ApprovalForAll(msg.sender, to, isApprovedForAll[msg.sender][to] = bol);
 
     }
     
