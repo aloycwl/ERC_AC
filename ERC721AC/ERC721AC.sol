@@ -38,9 +38,9 @@ contract ERC721AC is IERC721, IERC721Metadata {
 
     }
 
-    function supportsInterface(bytes4 a) external pure returns(bool) {
+    function supportsInterface(bytes4 i) external pure returns(bool) {
 
-        return a == type(IERC721).interfaceId || a == type(IERC721Metadata).interfaceId;
+        return i == type(IERC721).interfaceId || i == type(IERC721Metadata).interfaceId;
 
     }
     
@@ -50,14 +50,14 @@ contract ERC721AC is IERC721, IERC721Metadata {
 
     }
 
-    function approve(address a, uint b) external {
+    function approve(address to, uint id) external {
 
-        assert(msg.sender == ownerOf[b] || isApprovedForAll[ownerOf[b]][msg.sender]);
-        emit Approval(ownerOf[b], getApproved[b] = a, b);
+        assert(msg.sender == ownerOf[id] || isApprovedForAll[ownerOf[id]][msg.sender]);
+        emit Approval(ownerOf[id], getApproved[id] = to, id);
 
     }
     
-    function setApprovalForAll(address a, bool b)external {
+    function setApprovalForAll(address a, bool b) external {
         isApprovedForAll[msg.sender][a]=b;
         emit ApprovalForAll(msg.sender, a, b);
     }
