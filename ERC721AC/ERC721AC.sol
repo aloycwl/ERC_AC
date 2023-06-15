@@ -37,8 +37,11 @@ contract ERC721AC is IERC721, IERC721Metadata {
         owner = msg.sender;
 
     }
+
     function supportsInterface(bytes4 a) external pure returns(bool) {
-        return a==type(IERC721).interfaceId||a==type(IERC721Metadata).interfaceId;
+
+        return a == type(IERC721).interfaceId || a == type(IERC721Metadata).interfaceId;
+
     }
     
     function tokenURI(uint) external pure returns(string memory) {
