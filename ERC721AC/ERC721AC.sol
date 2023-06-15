@@ -26,13 +26,15 @@ contract ERC721AC is IERC721, IERC721Metadata {
     address public owner;
     string public name="Name";
     string public symbol="SYM";
-    mapping(uint=>address)internal _owners;
+    mapping(uint=>address)public ownerOf;
     mapping(address=>uint)internal _balances;
     mapping(uint=>address)internal _tokenApprovals;
     mapping(address=>mapping(address=>bool))internal _operatorApprovals;
-    
+
     constructor() {
-        owner=msg.sender;
+
+        owner = msg.sender;
+
     }
     function supportsInterface(bytes4 a)external pure returns(bool) {
         return a==type(IERC721).interfaceId||a==type(IERC721Metadata).interfaceId;
@@ -40,16 +42,13 @@ contract ERC721AC is IERC721, IERC721Metadata {
     function balanceOf(address a)external view returns(uint) {
         return _balances[a];
     }
-    function ownerOf(uint a)public view returns(address) {
-        return _owners[a]; 
-    }
     function tokenURI(uint)external pure returns(string memory) {
         return"";
     }
     function approve(address a, uint b)external {
-        require(msg.sender==ownerOf(b)||isApprovedForAll(ownerOf(b), msg.sender));
+        require(msg.sender==ownerOf[b]||isApprovedForAll(ownerOf[b], msg.sender));
         _tokenApprovals[b]=a;
-        emit Approval(ownerOf(b), a, b);
+        emit Approval(ownerOf[b], a, b);
     }
     function getApproved(uint a)public view returns(address) {
         return _tokenApprovals[a];
@@ -68,9 +67,9 @@ contract ERC721AC is IERC721, IERC721Metadata {
         transferFrom(a, b, c);
     }
     function transferFrom(address a, address b, uint c)public {unchecked {
-        require(a==ownerOf(c)||getApproved(c)==a||isApprovedForAll(ownerOf(c), a));
-        (_tokenApprovals[c]=address(0), _balances[a]--, _balances[b]++, _owners[c]=b);
-        emit Approval(ownerOf(c), b, c);
+        require(a==ownerOf[c]||getApproved(c)==a||isApprovedForAll(ownerOf[c], a));
+        (_tokenApprovals[c]=address(0), --_balances[a], ++_balances[b], ownerOf[c]=b);
+        emit Approval(ownerOf[c], b, c);
         emit Transfer(a, b, c);
     }}
 }
