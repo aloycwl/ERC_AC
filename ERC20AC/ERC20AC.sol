@@ -7,10 +7,10 @@ contract ERC20AC{
 
     mapping(address => mapping(address => uint)) public allowance;
     mapping(address => uint)                     public balanceOf;
-    uint constant                                public decimals = 18;
+    uint constant                                public decimals    = 18;
     uint                                         public totalSupply = 1e24;
-    string constant                              public name = "Name";
-    string constant                              public symbol = "SYM";
+    string constant                              public name        = "Name";
+    string constant                              public symbol      = "SYM";
 
     function approve (address a, uint b) external returns (bool) {
         
