@@ -1,5 +1,9 @@
-pragma solidity^0.8.13;//SPDX-License-Identifier:MIT
-import"IERC20.sol";
+//SPDX-License-Identifier:None
+pragma solidity ^0.8.18;
+pragma abicoder v1;
+
+import "ERC20AC/IERC20.sol";
+
 interface IERC20Metadata is IERC20{
     function name()external view returns(string memory);
     function symbol()external view returns(string memory);

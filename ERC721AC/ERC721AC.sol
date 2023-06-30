@@ -1,5 +1,6 @@
 //SPDX-License-Identifier:None
-pragma solidity>0.8.0;
+pragma solidity ^0.8.18;
+pragma abicoder v1;
 
 interface IERC721 {
     event Transfer(address indexed from, address indexed to, uint indexed tokenId);
@@ -25,12 +26,12 @@ interface IERC721Metadata {
 contract ERC721AC is IERC721, IERC721Metadata {
 
     address                                                             public owner;
-    string constant                                                     public name="Name";
-    string constant                                                     public symbol="SYM";
-    mapping(uint=>address)                                              public ownerOf;
-    mapping(address=>uint)                                              public balanceOf;
-    mapping(uint=>address)                                              public getApproved;
-    mapping(address=>mapping(address=>bool))                            public isApprovedForAll;
+    string constant                                                     public name = "Name";
+    string constant                                                     public symbol = "SYM";
+    mapping (uint => address)                                           public ownerOf;
+    mapping (address => uint)                                           public balanceOf;
+    mapping (uint => address)                                           public getApproved;
+    mapping (address => mapping (address => bool))                      public isApprovedForAll;
 
     constructor() {
 
