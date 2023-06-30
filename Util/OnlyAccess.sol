@@ -1,16 +1,32 @@
-pragma solidity>0.8.0;//SPDX-License-Identifier:None
+//SPDX-License-Identifier:None
+pragma solidity ^0.8.18;
+pragma abicoder v1;
 
-contract OnlyAccess{
-    mapping(address=>uint)public _access;
-    modifier onlyAccess(){
-        require(_access[msg.sender]>0);
+contract Access {
+
+    mapping(address => uint) public access;
+
+    constructor () {
+
+        access[msg.sender] = 1e3;
+
+    }
+
+    modifier OnlyAccess () {
+
+        require(access[msg.sender] > 0,         "Insufficient access");
         _;
+
     }
-    constructor(){
-        _access[msg.sender]=1;
+
+    function setAccess (address addr, uint u) external OnlyAccess {
+
+        uint acc = access[msg.sender];
+        
+        require(acc > access[addr] && acc > u,  "Invalid access");
+
+        access[addr] = u;
+
     }
-    function ACCESS(address a,uint b)external onlyAccess{
-        if(b==0)delete _access[a];
-        else _access[a]=b;
-    }
+    
 }
