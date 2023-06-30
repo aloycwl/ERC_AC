@@ -1,9 +1,12 @@
-pragma solidity>0.8.0;//SPDX-License-Identifier:None
+//SPDX-License-Identifier:None
+pragma solidity ^0.8.18;
+pragma abicoder v1;
+
 interface IERC1155{
-    event TransferSingle(address indexed operator,address indexed from,address indexed to,uint256 id,uint256 value);
-    event TransferBatch(address indexed operator,address indexed from,address indexed to,uint256[]ids,uint256[]values);
-    event ApprovalForAll(address indexed account,address indexed operator,bool approved);
-    event URI(string value,uint256 indexed id);
+    event TransferSingle(address indexed operator, address indexed from, address indexed to, uint256, uint256);
+    event TransferBatch(address indexed operator, address indexed from, address indexed to, uint256[], uint256[]);
+    event ApprovalForAll(address indexed account, address indexed operator, bool);
+    event URI(string, uint256 indexed id);
     function balanceOf(address,uint256)external view returns (uint256);
     function balanceOfBatch(address[]calldata,uint256[]calldata)external view returns (uint256[]memory);
     function setApprovalForAll(address,bool)external;
