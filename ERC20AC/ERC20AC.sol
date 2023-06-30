@@ -1,5 +1,7 @@
 //SPDX-License-Identifier:None
-pragma solidity>0.8.0;
+pragma solidity >0.8.0;
+pragma abicoder v2;
+
 
 contract ERC20AC{
     event Transfer (address indexed from,  address indexed to,      uint value);
@@ -38,7 +40,7 @@ contract ERC20AC{
             if (allow >= c) allowance[a][b] -= c;
             (balanceOf[a] -= c, balanceOf[b] += c);
 
-            emit Transfer(a,b,c);
+            emit Transfer(a, b, c);
             return true;
 
         }
