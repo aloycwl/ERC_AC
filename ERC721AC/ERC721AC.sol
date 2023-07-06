@@ -3,9 +3,11 @@ pragma solidity ^0.8.18;
 pragma abicoder v1;
 
 interface IERC721 {
-    event Transfer(address indexed from, address indexed to, uint indexed tokenId);
-    event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
-    event Approval(address indexed owner, address indexed approved, uint indexed tokenId);
+
+    event Transfer          (address indexed from, address indexed to, uint indexed tokenId);
+    event ApprovalForAll    (address indexed owner, address indexed operator, bool approved);
+    event Approval          (address indexed owner, address indexed approved, uint indexed tokenId);
+
     function balanceOf(address)                                         external view returns(uint);
     function ownerOf(uint)                                              external view returns(address);
     function getApproved(uint)                                          external view returns(address);
@@ -15,12 +17,15 @@ interface IERC721 {
     function transferFrom(address, address, uint)                       external;
     function safeTransferFrom(address, address, uint)                   external;
     function safeTransferFrom(address, address, uint, bytes calldata)   external;
+
 }
 
 interface IERC721Metadata {
+
     function name()                                                     external view returns(string memory);
     function symbol()                                                   external view returns(string memory);
     function tokenURI(uint)                                             external view returns(string memory);
+
 }
 
 contract ERC721AC is IERC721, IERC721Metadata {
@@ -80,9 +85,9 @@ contract ERC721AC is IERC721, IERC721Metadata {
 
         address _owner = ownerOf[id];
 
-        assert( from == _owner || 
-                getApproved[id] == from || 
-                isApprovedForAll[_owner][from]);
+        assert(from == _owner || 
+               getApproved[id] == from || 
+               isApprovedForAll[_owner][from]);
         
         unchecked {
         
