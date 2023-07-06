@@ -4,7 +4,7 @@ pragma abicoder v1;
 
 contract random{
 
-    function ranArr () external view returns (uint[10] memory array) {
+    function ranArr() external view returns (uint[10] memory array) {
         
         unchecked{
 
@@ -16,7 +16,7 @@ contract random{
 
     }
 
-    function ranNum () external view returns (uint) {
+    function ranNum() external view returns (uint n) {
 
         unchecked {
 
