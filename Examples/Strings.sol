@@ -4,7 +4,7 @@ pragma abicoder v1;
 
 contract StringUtil {
 
-    function u2s(uint a) public pure returns (string memory) {
+    function u2s(uint a) public pure returns(string memory) {
 
         unchecked {
         
@@ -17,6 +17,17 @@ contract StringUtil {
             while (j != 0) (bstr[--l] = bytes1(uint8(48 + j % 10)), j /= 10);
             return string(bstr);
             
+        }
+
+    }
+
+    function string_assembly(uint) external pure returns(string memory) {
+
+        assembly {
+            mstore(0x0, 0x20)
+            mstore(0x20, 0x20)
+            mstore(0x40, "String value")
+            return(0x0, 0x60)
         }
 
     }

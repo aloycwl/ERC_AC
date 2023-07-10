@@ -20,7 +20,12 @@ contract random{
 
         unchecked {
 
-            return uint(keccak256(abi.encodePacked(block.timestamp))) % 10;
+            //n = uint(keccak256(abi.encodePacked(block.timestamp))) % 10;
+            n = block.timestamp % 10;
+
+            /*assembly {
+                n := mod(timestamp(), 10)
+            }/**/
 
         }
 
