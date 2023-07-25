@@ -3,14 +3,9 @@
 pragma solidity ^0.8.18;
 pragma abicoder v1;
 
-
 contract TestCall {
 
-
-    
-
-    function getSelector() external pure returns (bytes4) {
-        //return bytes4(keccak256("transferFrom(address,address,uint256)"));
+    function getSelector() external pure returns(bytes4) {
         return bytes4(keccak256("listData(address,address,uint256)"));
     }
 
