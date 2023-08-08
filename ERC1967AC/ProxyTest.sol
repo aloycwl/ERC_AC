@@ -1,29 +1,37 @@
 // SPDX-License-Identifier: None
-pragma solidity ^0.8.18;
+pragma solidity 0.8.19;
+pragma abicoder v1;
 
-import "./UUPS.sol";
+import "./UUPSAC.sol";
 
-contract Pizza is Initializable, UUPSUpgradeable, OwnableUpgradeable {
-   uint public slices;
+contract NFTExample is UUPSUpgradeable {
 
-   function initialize(uint _sliceCount) public initializer {
-       slices = _sliceCount;
-       __Ownable_init();
-   }
+    uint public totalSupply;
+    string public name;
 
-   function _authorizeUpgrade(address) internal override onlyOwner {}
+    function initialize(uint totalSupply_) external {
+        init();
+        (totalSupply, name) = (totalSupply_, "Crazy NFT");
+    }
 
-   function eatSlice() external {
-       require(slices > 1, "no slices left");
-       slices -= 1;
-   }
+    function mint() external virtual {
+        require(totalSupply-- > 0x1, "Ran out of supply");
+    }
 }
 
-contract PizzaV2 is Pizza {
-   function refillSlice() external {
-       slices += 1;
-   }
-   function pizzaVersion() external pure returns (uint) {
-       return 2;
-   }
+contract NFTExampleV2 is NFTExample {
+
+    uint constant public NFTVersion = 0x02;
+
+    constructor() {
+        name = "Wild NFT";
+    }
+
+    function addSupply() external {
+        totalSupply += 0x0f;
+    } 
+
+    function mint() external override {
+        require(totalSupply-- > 0x00, "Ran out of supply");
+    }
 }
