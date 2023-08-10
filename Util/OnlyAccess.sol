@@ -4,29 +4,33 @@ pragma abicoder v1;
 
 contract Access {
 
-    mapping(address => uint) public access;
+    bytes32 constant private ACC = 0xba820cc3887163b837a8768e6a5b186b16a86bdf66a4448502c551f31328f85f;
 
-    constructor () {
+    constructor() { assembly {
+        mstore(0x00, ACC)
+        mstore(0x20, caller())
+        sstore(keccak256(0x00, 0x40), 0xff)
+    }}
 
-        access[msg.sender] = 1e3;
-
-    }
-
-    modifier OnlyAccess () {
-
-        require(access[msg.sender] > 0,         "Insufficient access");
+    modifier OnlyAccess() { assembly {
+        mstore(0x00, ACC)
+        mstore(0x20, caller())
+        if iszero(sload(keccak256(0x00, 0x40))) {
+            revert(0x00, 0x00)
+        }}
         _;
-
     }
 
-    function setAccess (address addr, uint u) external OnlyAccess {
+    function access(address adr) external view returns(uint val) { assembly {
+        mstore(0x00, ACC)
+        mstore(0x20, adr)
+        val := sload(keccak256(0x00, 0x40))  
+    }}
 
-        uint acc = access[msg.sender];
-        
-        require(acc > access[addr] && acc > u,  "Invalid access");
+    function setAccess (address adr, uint acl) external OnlyAccess { assembly {
+        mstore(0x00, ACC)
+        mstore(0x20, adr)
+        sstore(keccak256(0x00, 0x40), acl)
+    }}
 
-        access[addr] = u;
-
-    }
-    
 }
