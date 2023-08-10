@@ -25,7 +25,7 @@ contract StringUtil {
 
         assembly {
             mstore(0x0, 0x20)
-            mstore(0x20, 0x20)
+            mstore(0x20, 0x0c)
             mstore(0x40, "String value")
             return(0x0, 0x60)
         }
