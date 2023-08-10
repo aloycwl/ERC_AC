@@ -2,7 +2,7 @@
 pragma solidity ^0.8.18;
 pragma abicoder v1;
 
-contract StringUtil {
+library StringUtil {
 
     function u2s(uint a) public pure returns(string memory) {
 
