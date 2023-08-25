@@ -6,7 +6,7 @@ abstract contract UUPSUpgradeable {
     bytes32 constant public UUID = 0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc;
     bytes32 constant private OWN = 0x02016836a56b71f0d02689e69e326f4f4c1b9057164ef592671cf0d37c8040c0;
     bytes32 constant private INI = 0x9016906c42b25b8b9c5a4f8fb96df431241948aae1ac92547e2f35e14403c4d8;
-    bytes32 constant private UUI = 0x5cc99e3500000000000000000000000000000000000000000000000000000000;
+    bytes32 constant private UUI = 0x5c0b0f9600000000000000000000000000000000000000000000000000000000;
     bytes32 constant private ERR = 0x08c379a000000000000000000000000000000000000000000000000000000000;
     address private immutable SLF = address(this);
 
@@ -59,6 +59,17 @@ abstract contract UUPSUpgradeable {
             }
             
             sstore(UUID, adr) 
+        }
+    }
+
+    function getUUID(address adr) external view returns (bytes32) {
+        //upgradeToAndCall(adr, new bytes(0));
+        assembly {
+            // UUPSUpgradeable(adr).UUID()
+            mstore(0x80, UUI)
+            pop(staticcall(gas(), adr, 0x80, 0x04, 0x00, 0x20))
+            
+            return(0x00, 0x20)
         }
     }
 }
